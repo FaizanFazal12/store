@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 export default function Product() {
   const [product, setProduct] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
+  const [sortOrder, setSortOrder] = useState('ascending');
 
   useEffect(() => {
     async function fetchProducts() {
@@ -29,33 +32,107 @@ export default function Product() {
     }
   };
 
+  const handleFilter = () => {
+    const filteredByPrice = product.filter((item) => {
+      const price = parseFloat(item.price);
+      return (minPrice === '' || price >= parseFloat(minPrice)) &&
+             (maxPrice === '' || price <= parseFloat(maxPrice));
+    });
+
+    const sortedProducts = filteredByPrice.slice().sort((a, b) => {
+      if (sortOrder === 'ascending') {
+        return a.price - b.price;
+      } else {
+        return b.price - a.price;
+      }
+    });
+
+    setFilteredProducts(sortedProducts);
+  };
+
   return (
     <div>
       <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8">
         Latest Products
       </h2>
-      <nav>
-        <ul className='container flex items-center justify-center space-x-4'>
-          <li className='mx-4'>
-            <button
-              className={`font-bold text-blue-500 ${filteredProducts.length === product.length ? 'text-blue-500' : 'text-gray-600 hover:text-blue-500'}`}
-              onClick={() => handleCategoryClick('All')}
-            >
-              All
-            </button>
-          </li>
-          {Array.from(new Set(product.map(item => item.category))).map(category => (
-            <li className='mx-4 font-serif font-bold' key={category}>
-              <button
-                className={`text-gray-600 hover:text-blue-500 ${filteredProducts.some(item => item.category === category) ? 'text-blue-500' : ''}`}
-                onClick={() => handleCategoryClick(category)}
-              >
-                {category}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <nav className="bg-gray-100 py-4">
+  <ul className="container flex items-center justify-center space-x-4">
+    <li className="mx-4">
+      <button
+        className={`font-bold text-blue-500 ${
+          filteredProducts.length === product.length
+            ? 'text-blue-500'
+            : 'text-gray-600 hover:text-blue-500'
+        }`}
+        onClick={() => handleCategoryClick('All')}
+      >
+        All
+      </button>
+    </li>
+    {Array.from(new Set(product.map((item) => item.category))).map(
+      (category) => (
+        <li className="mx-4 font-serif font-bold" key={category}>
+          <button
+            className={`text-gray-600 hover:text-blue-500 ${
+              filteredProducts.some((item) => item.category === category)
+                ? 'text-blue-500'
+                : ''
+            }`}
+            onClick={() => handleCategoryClick(category)}
+          >
+            {category}
+          </button>
+        </li>
+      )
+    )}
+  </ul>
+</nav>
+
+<div className="flex items-center justify-center space-x-4 mt-4">
+  <input
+    type="number"
+    placeholder="Min Price"
+    value={minPrice}
+    onChange={(e) => setMinPrice(e.target.value)}
+    className="border border-gray-300 rounded-md p-2"
+  />
+  <input
+    type="number"
+    placeholder="Max Price"
+    value={maxPrice}
+    onChange={(e) => setMaxPrice(e.target.value)}
+    className="border border-gray-300 rounded-md p-2"
+  />
+  <div className="flex items-center space-x-2">
+    <label className="text-gray-600">
+      <input
+        type="radio"
+        value="ascending"
+        checked={sortOrder === 'ascending'}
+        onChange={() => setSortOrder('ascending')}
+        className="mr-1"
+      />
+      Ascending
+    </label>
+    <label className="text-gray-600">
+      <input
+        type="radio"
+        value="descending"
+        checked={sortOrder === 'descending'}
+        onChange={() => setSortOrder('descending')}
+        className="mr-1"
+      />
+      Descending
+    </label>
+  </div>
+  <button
+    className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+    onClick={handleFilter}
+  >
+    Apply Filter
+  </button>
+</div>
+
 
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
@@ -71,12 +148,12 @@ export default function Product() {
                 </a>
                 <div className="mt-4">
                   <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">
-                    CATEGORY
+                    {item.category}
                   </h3>
                   <h2 className="text-gray-900 title-font text-lg font-medium">
                     {item.title.slice(0, 20)}...
                   </h2>
-                  <p className="mt-1 mb-4">{item.price}</p>
+                  <p className="mt-1 mb-4">${item.price}</p>
 
                   <Link
                     to={`/productitem/${item.id}`}

@@ -7,11 +7,13 @@ export default function ProductItem() {
   const dispatch=useDispatch()
   const [Product, setProduct] = useState([]);
   const [loading, setLoading] = useState(false)
+  const [rating, setRating] = useState("");
 
   useEffect(() => {
    async function getproduct(){
     const response = await fetch(`https://fakestoreapi.com/products/${id}`);
     const data = await response.json();
+  setRating(data.rating.rate);
     setProduct(data);
    }
    getproduct()
@@ -19,7 +21,6 @@ export default function ProductItem() {
 
   const addCart=(product)=>{
     dispatch(addProduct(product))
-
   }
   
   return (
@@ -30,6 +31,22 @@ export default function ProductItem() {
         {Product.title}
       </h1>
       <p className="mb-8 leading-relaxed">{Product.description}</p>
+      <div className="flex items-center mb-4">
+  <div className="text-yellow-500 text-xl flex">
+  <div className="flex items-center mb-4">
+  <div className="text-yellow-500 text-xl flex">
+    {[...Array(Math.round(rating))].map((_, index) => (
+      <span key={index} className="mr-1">
+        ★
+      </span>
+    ))}
+  </div>
+  <span className="ml-2 text-gray-600">{rating}</span>
+</div>
+
+  </div>
+</div>
+
       <div className="flex justify-center">
         <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" onClick={()=>addCart(Product)}>Add to Cart</button>
         <button className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">Go to Cart</button>
