@@ -1,10 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { incrementQuantity, decrementQuantity } from '../store/features/Cart/cart';
+import { useNavigate } from 'react-router-dom';
 
 export default function Cart() {
   const cartItems = useSelector((state) => state.cart.products);
   const dispatch = useDispatch();
+  const navigate=useNavigate()
 
   const increment = (item) => {
     dispatch(incrementQuantity(item));
@@ -56,7 +58,7 @@ export default function Cart() {
           <div className="mt-6 text-center">
             <button
               className="px-6 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600"
-              onClick={() => alert("Payment functionality will be added.")}
+              onClick={() => navigate("/payment")}
             >
               Pay Order
             </button>
