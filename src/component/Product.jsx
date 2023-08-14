@@ -36,7 +36,7 @@ export default function Product() {
     const filteredByPrice = product.filter((item) => {
       const price = parseFloat(item.price);
       return (minPrice === '' || price >= parseFloat(minPrice)) &&
-             (maxPrice === '' || price <= parseFloat(maxPrice));
+        (maxPrice === '' || price <= parseFloat(maxPrice));
     });
 
     const sortedProducts = filteredByPrice.slice().sort((a, b) => {
@@ -56,82 +56,81 @@ export default function Product() {
         Latest Products
       </h2>
       <nav className="bg-gray-100 py-4">
-  <ul className="container flex items-center justify-center space-x-4">
-    <li className="mx-4">
-      <button
-        className={`font-bold text-blue-500 ${
-          filteredProducts.length === product.length
-            ? 'text-blue-500'
-            : 'text-gray-600 hover:text-blue-500'
-        }`}
-        onClick={() => handleCategoryClick('All')}
-      >
-        All
-      </button>
-    </li>
-    {Array.from(new Set(product.map((item) => item.category))).map(
-      (category) => (
-        <li className="mx-4 font-serif font-bold" key={category}>
-          <button
-            className={`text-gray-600 hover:text-blue-500 ${
-              filteredProducts.some((item) => item.category === category)
-                ? 'text-blue-500'
-                : ''
-            }`}
-            onClick={() => handleCategoryClick(category)}
-          >
-            {category}
-          </button>
-        </li>
-      )
-    )}
-  </ul>
-</nav>
+        <ul className="container mx-auto md:flex md:justify-center space-y-4 md:space-y-0 md:space-x-4">
+          <li>
+            <button
+              className={`font-bold text-blue-500 ${filteredProducts.length === product.length
+                  ? 'text-blue-500'
+                  : 'text-gray-600 hover:text-blue-500'
+                }`}
+              onClick={() => handleCategoryClick('All')}
+            >
+              All
+            </button>
+          </li>
+          {Array.from(new Set(product.map((item) => item.category))).map(
+            (category) => (
+              <li className="font-serif font-bold" key={category}>
+                <button
+                  className={`text-gray-600 hover:text-blue-500 ${filteredProducts.some((item) => item.category === category)
+                      ? 'text-blue-500'
+                      : ''
+                    }`}
+                  onClick={() => handleCategoryClick(category)}
+                >
+                  {category}
+                </button>
+              </li>
+            )
+          )}
+        </ul>
+      </nav>
 
-<div className="flex items-center justify-center space-x-4 mt-4">
-  <input
-    type="number"
-    placeholder="Min Price"
-    value={minPrice}
-    onChange={(e) => setMinPrice(e.target.value)}
-    className="border border-gray-300 rounded-md p-2"
-  />
-  <input
-    type="number"
-    placeholder="Max Price"
-    value={maxPrice}
-    onChange={(e) => setMaxPrice(e.target.value)}
-    className="border border-gray-300 rounded-md p-2"
-  />
-  <div className="flex items-center space-x-2">
-    <label className="text-gray-600">
-      <input
-        type="radio"
-        value="ascending"
-        checked={sortOrder === 'ascending'}
-        onChange={() => setSortOrder('ascending')}
-        className="mr-1"
-      />
-      Ascending
-    </label>
-    <label className="text-gray-600">
-      <input
-        type="radio"
-        value="descending"
-        checked={sortOrder === 'descending'}
-        onChange={() => setSortOrder('descending')}
-        className="mr-1"
-      />
-      Descending
-    </label>
-  </div>
-  <button
-    className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-    onClick={handleFilter}
-  >
-    Apply Filter
-  </button>
-</div>
+      <div className="flex flex-col lg:container mx-auto md:flex-row items-center  justify-center md:justify-between space-y-4 md:space-y-0 md:space-x-4 mt-4">
+        <input
+          type="number"
+          placeholder="Min Price"
+          value={minPrice}
+          onChange={(e) => setMinPrice(e.target.value)}
+          className="border border-gray-300 rounded-md p-2"
+        />
+        <input
+          type="number"
+          placeholder="Max Price"
+          value={maxPrice}
+          onChange={(e) => setMaxPrice(e.target.value)}
+          className="border border-gray-300 rounded-md p-2"
+        />
+        <div className="flex items-center space-x-2">
+          <label className="text-gray-600">
+            <input
+              type="radio"
+              value="ascending"
+              checked={sortOrder === 'ascending'}
+              onChange={() => setSortOrder('ascending')}
+              className="mr-1"
+            />
+            Ascending
+          </label>
+          <label className="text-gray-600">
+            <input
+              type="radio"
+              value="descending"
+              checked={sortOrder === 'descending'}
+              onChange={() => setSortOrder('descending')}
+              className="mr-1"
+            />
+            Descending
+          </label>
+        </div>
+        <button
+          className="w-full md:w-auto px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          onClick={handleFilter}
+        >
+          Apply Filter
+        </button>
+      </div>
+
 
 
       <section className="text-gray-600 body-font">

@@ -45,7 +45,7 @@ export default function Payment() {
                         {cartItems.length >0 ? cartItems.map((item) => {
                             return (
                                 <>
-                                    <div className="flex flex-col rounded-lg bg-white sm:flex-row">
+                                    <div className="flex flex-col rounded-lg bg-white sm:flex-row" key={item.id}>
                                         <img className="m-2 h-24 w-28 rounded-md border object-cover object-center" src={item.image} alt="" />
                                         <div className="flex w-full flex-col px-4 py-4">
                                             <span className="font-semibold">{item.title}</span>
