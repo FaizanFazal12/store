@@ -28,7 +28,7 @@ export default function Cart() {
               <li key={item.id} className="p-4 flex items-center justify-between">
                 <div className="flex items-center">
                   <img
-                    src={item.image}
+                    src={item.thumbnail}
                     alt={item.title}
                     className="w-20 h-20 object-cover rounded"
                   />

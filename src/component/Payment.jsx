@@ -46,7 +46,7 @@ export default function Payment() {
                             return (
                                 <>
                                     <div className="flex flex-col rounded-lg bg-white sm:flex-row" key={item.id}>
-                                        <img className="m-2 h-24 w-28 rounded-md border object-cover object-center" src={item.image} alt="" />
+                                        <img className="m-2 h-24 w-28 rounded-md border object-cover object-center" src={item.thumbnail} alt="" />
                                         <div className="flex w-full flex-col px-4 py-4">
                                             <span className="font-semibold">{item.title}</span>
                                             <span className="float-right text-gray-400">{item.description}</span>

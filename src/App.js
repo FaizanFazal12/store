@@ -8,6 +8,7 @@ import Footer from "./component/Footer";
 import Payment from "./component/Payment";
 import Login from "./component/Login";
 import Regiser from "./component/Regiser";
+import Category from "./component/Category";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route exact path="/cart" element={<Cart/>} />
           <Route exact path="/payment" element={<Payment/>} />
         </Routes>
+        {/* <Category/> */}
         <Footer/>
       </Router>
     </div>
